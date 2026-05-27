@@ -64,15 +64,25 @@ if ($user_role === 'Client' && $user_id_session) {
             $state = trim($_POST['state'] ?? '');
             $postal_code = trim($_POST['postal_code'] ?? '');
             if ($profile_client && $street_address !== '' && $city !== '') {
-                $is_default = 0;
-                $addr_ins = mysqli_prepare($conn, 'INSERT INTO client_addresses (client_id, address_type, street_address, city, state, postal_code, is_default) VALUES (?, ?, ?, ?, ?, ?, ?)');
-                mysqli_stmt_bind_param($addr_ins, 'isssssi', $profile_client['id'], $address_type, $street_address, $city, $state, $postal_code, $is_default);
-                if (mysqli_stmt_execute($addr_ins)) {
-                    $profile_success = 'Address saved successfully.';
-                } else {
-                    $profile_error = 'Failed to save address.';
-                }
-                mysqli_stmt_close($addr_ins);
+                $client_id = (int)$profile_client['id'];
+$address_type_safe = mysqli_real_escape_string($conn, $address_type);
+$street_safe = mysqli_real_escape_string($conn, $street_address);
+$city_safe = mysqli_real_escape_string($conn, $city);
+$state_safe = mysqli_real_escape_string($conn, $state);
+$postal_safe = mysqli_real_escape_string($conn, $postal_code);
+
+$insert_sql = "
+    INSERT INTO client_addresses 
+    (client_id, address_type, street_address, city, state, postal_code, is_default)
+    VALUES 
+    ($client_id, '$address_type_safe', '$street_safe', '$city_safe', '$state_safe', '$postal_safe', 0)
+";
+
+if (mysqli_query($conn, $insert_sql)) {
+    $profile_success = 'Address saved successfully.';
+} else {
+    $profile_error = 'Failed to save address: ' . mysqli_error($conn);
+}
             } else {
                 $profile_error = 'Street address and city are required.';
             }
