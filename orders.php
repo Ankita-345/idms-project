@@ -147,6 +147,26 @@ if ($stmt) {
 $pageTitle = 'Orders - IDMS';
 include 'includes/header.php';
 ?>
+<style>
+.status-badge {
+    font-weight: 600;
+    padding: .4em .75em;
+    border-radius: .5rem;
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+.status-pending { background-color: #fffbeb; color: #b45309; }
+.status-confirmed { background-color: #eff6ff; color: #1d4ed8; }
+.status-assigned { background-color: #f5f3ff; color: #5b21b6; }
+.status-picked { background-color: #f3f4f6; color: #1f2937; }
+.status-in-transit { background-color: #f0f9ff; color: #0369a1; }
+.status-out-for-delivery { background-color: #ecfeff; color: #0e7490; }
+.status-delivered { background-color: #f0fdf4; color: #15803d; }
+.status-completed { background-color: #dcfce7; color: #166534; }
+.status-cancelled { background-color: #fef2f2; color: #b91c1c; }
+.status-failed { background-color: #fee2e2; color: #991b1b; }
+</style>
 <div class="container-fluid">
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
@@ -235,19 +255,6 @@ include 'includes/header.php';
                                 </thead>
                                 <tbody>
                                     <?php foreach ($orders as $o): ?>
-                                        <?php
-                                            $status_colors = [
-                                                'Pending' => 'secondary',
-                                                'Confirmed' => 'primary',
-                                                'Assigned' => 'info',
-                                                'Out for Delivery' => 'warning',
-                                                'Delivered' => 'success',
-                                                'Completed' => 'dark',
-                                                'Cancelled' => 'danger',
-                                                'Failed' => 'danger'
-                                            ];
-                                            $badge = $status_colors[$o['status']] ?? 'secondary';
-                                        ?>
                                         <tr>
                                             <td><span class="badge bg-light text-dark">#<?= $o['id'] ?></span></td>
                                             <td><strong><?= htmlspecialchars($o['company_name'] ?? 'Client removed') ?></strong></td>
