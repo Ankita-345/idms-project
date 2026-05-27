@@ -85,7 +85,6 @@ include 'includes/header.php';
 ?>
 <div class="container py-5">
     <div class="row justify-content-center">
-        <?php include 'includes/sidebar.php'; ?>
         <main class="col-md-9 col-lg-7 px-md-4 py-4">
             <div class="card shadow-sm">
                 <div class="card-body">
