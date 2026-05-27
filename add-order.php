@@ -92,7 +92,6 @@ while ($row = mysqli_fetch_assoc($inv_stock_res)) {
 }
 
 $ice_type = $_POST['ice_type'] ?? '';
-$quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
 $quantity_unit = $unit_map[$ice_type] ?? '';
 $available_stock = $ice_type ? ($inventory_quantities[$ice_type] ?? null) : null;
 if ($ice_type) {
@@ -114,9 +113,16 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Temp debug
+    file_put_contents(__DIR__ . '/debug.log', '--- New Order Request ---' . PHP_EOL . 'Raw POST quantity: ' . ($_POST['quantity'] ?? 'Not set') . PHP_EOL, FILE_APPEND);
+
     $client_id = (int)($_POST['client_id'] ?? 0);
     $ice_type = $_POST['ice_type'] ?? '';
-    $quantity = (int)($_POST['quantity'] ?? 0);
+    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 0;
+
+    // Temp debug
+    file_put_contents(__DIR__ . '/debug.log', 'Parsed quantity variable: ' . $quantity . PHP_EOL, FILE_APPEND);
+
     $delivery_date = $_POST['delivery_date'] ?? '';
     $delivery_time_slot = trim($_POST['delivery_time_slot'] ?? '');
     $client_address_id = !empty($_POST['client_address_id']) ? (int)$_POST['client_address_id'] : null;
@@ -370,7 +376,7 @@ include 'includes/header.php';
                                     <div class="col-12 col-md-6 mb-3">
                                         <label for="quantity" class="form-label">Quantity <span class="text-danger">*</span></label>
                                             <div class="input-group">
-                                                <input type="number" id="quantity" name="quantity" class="form-control" min="1" value="<?= htmlspecialchars($quantity ?: 1) ?>" placeholder="<?= htmlspecialchars($quantity_placeholder) ?>" required>
+                                                <input type="number" id="quantity" name="quantity" class="form-control" min="1" value="1" placeholder="<?= htmlspecialchars($quantity_placeholder) ?>" required>
                                                 <span class="input-group-text" id="quantityUnit"><?= htmlspecialchars($quantity_unit ?: 'unit') ?></span>
                                             </div>
                                     </div>
