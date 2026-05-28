@@ -1,7 +1,7 @@
 <?php
 require 'db.php';
 
-require_role(['Admin', 'Manager', 'Operations Manager']);
+require_role(['Admin', 'Operations Manager']);
 
 // Get client ID from URL
 $client_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;

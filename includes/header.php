@@ -37,26 +37,55 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
             color: #f8fafc;
         }
         .sidebar {
-            background: linear-gradient(180deg, #111827 0%, #0f172a 55%, #020617 100%);
-            position: sticky;
-            top: 56px; /* Height of navbar */
-            height: calc(100vh - 56px);
-            overflow-y: auto;
-            border-right: 1px solid rgba(148,163,184,.18);
-        }
-        .sidebar .nav-link {
-            color: #cbd5e1;
-            padding: .85rem 1.25rem;
-            border-radius: 12px;
-            transition: background .2s ease, color .2s ease;
-            font-weight: 500;
-            margin: 0 .5rem;
-        }
+    background: linear-gradient(180deg, #111827 0%, #0f172a 55%, #020617 100%);
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: hidden !important;
+    border-right: 1px solid rgba(148,163,184,.18);
+
+    min-width: 210px !important;
+    width: 210px !important;
+    overflow-x: hidden !important;
+}
+    .sidebar::-webkit-scrollbar {
+    display: none;
+}
+.sidebar .nav-link {
+    color: #cbd5e1;
+    padding: 12px 16px;
+    border-radius: 12px;
+    transition: background .2s ease, color .2s ease;
+    font-weight: 500;
+    margin: 0 10px 8px 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}   /* .sidebar .nav-link {
+    color: #cbd5e1;
+    padding: .85rem 1.25rem;
+    border-radius: 12px;
+    transition: background .2s ease, color .2s ease;
+    font-weight: 500;
+    margin: 0 .5rem;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    white-space: nowrap !important;
+    /* max-width: calc(100% - 16px) !important;
+    box-sizing: border-box !important; */
+/* } */ 
         .sidebar .nav-link .bi {
-            margin-right: .75rem;
-            color: #93c5fd;
-            transition: color .2s ease;
-        }
+    color: #93c5fd;
+    transition: color .2s ease;
+
+    width: 22px !important;
+    min-width: 22px !important;
+    margin-right: 0 !important;
+    text-align: center !important;
+}
         .sidebar .nav-link:hover {
             color: #ffffff;
             background-color: rgba(56,189,248,.12);
@@ -67,7 +96,8 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
         .sidebar .nav-link.active {
             color: #ffffff;
             background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-            box-shadow: 0 10px 25px rgba(14,165,233,.25);
+            /* box-shadow: inset 0 0 0 1px rgba(255,255,255,.08) !important; */
+            /* box-shadow: 0 10px 25px rgba(14,165,233,.25); */
         }
         .sidebar .nav-link.active .bi {
             color: #ffffff;
@@ -81,6 +111,7 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
         .main-content {
             padding-top: 1.5rem;
         }
+
     </style>
 </head>
 <body class="<?= htmlspecialchars($bodyClass ?? '') ?>">

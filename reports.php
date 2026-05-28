@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 $role = $_SESSION['role'] ?? 'Client';
 $user_id = $_SESSION['user_id'] ?? 0;
 
-if (!in_array($role, ['Admin', 'Manager', 'Operations Manager', 'Delivery', 'Client'])) {
+if (!in_array($role, ['Admin', 'Delivery', 'Client'])) {
     header('Location: dashboard.php');
     exit;
 }
@@ -30,7 +30,7 @@ $sales_by_client = [];
 $own_orders_summary = [];
 $assigned_summary = [];
 
-if (in_array($role, ['Admin', 'Manager', 'Operations Manager'])) {
+if (in_array($role, ['Admin'])) {
     $row = mysqli_fetch_assoc(mysqli_query($conn, 'SELECT COUNT(*) AS total_orders FROM orders'));
     $totals['total_orders'] = (int)($row['total_orders'] ?? 0);
     $row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS pending_orders FROM orders WHERE status = 'Pending'"));
@@ -98,7 +98,7 @@ if (in_array($role, ['Admin', 'Manager', 'Operations Manager'])) {
                 </div>
             </div>
 
-            <?php if (in_array($role, ['Admin', 'Manager', 'Operations Manager'])): ?>
+            <?php if (in_array($role, ['Admin'])): ?>
                 <div class="row g-3 mb-4">
                     <div class="col-6 col-xl-3">
                         <div class="card border-primary shadow-sm h-100">
