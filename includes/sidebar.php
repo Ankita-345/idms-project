@@ -17,7 +17,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <a class="nav-link <?= $currentPage === 'orders.php' ? 'active' : '' ?>" href="orders.php"><i class="bi bi-card-list"></i>My Orders</a>
                     </li>
                 <?php endif; ?>
-                <?php if ($role === 'Manager' || $role === 'Operations Manager' || $role === 'Admin'): ?>
+                <?php if ($role === 'Admin'): ?>
                     <li class="nav-item mb-1">
                         <a class="nav-link <?= $currentPage === 'clients.php' ? 'active' : '' ?>" href="clients.php"><i class="bi bi-people"></i>Clients</a>
                     </li>
@@ -37,11 +37,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <?php if ($role === 'Delivery'): ?>
                     <li class="nav-item mb-1">
                         <a class="nav-link <?= $currentPage === 'orders.php' ? 'active' : '' ?>" href="orders.php"><i class="bi bi-truck-flatbed"></i>Assigned Orders</a>
-                    </li>
-                <?php endif; ?>
-                <?php if ($role === 'Admin'): ?>
-                    <li class="nav-item mb-1">
-                        <a class="nav-link" href="#"><i class="bi bi-gear"></i>User Management</a>
                     </li>
                 <?php endif; ?>
                 <li class="nav-item mb-1">

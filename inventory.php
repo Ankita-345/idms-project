@@ -1,7 +1,7 @@
 <?php
 require 'db.php';
 
-if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'] ?? '', ['Admin','Manager'])) {
+if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'Admin') {
     header('Location: index.php');
     exit;
 }

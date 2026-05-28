@@ -21,11 +21,13 @@ include 'includes/header.php';
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
             <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
                 <h1 class="h2">Notifications</h1>
-                <form method="post" action="mark-notification.php">
-                    <input type="hidden" name="all" value="1">
-                    <input type="hidden" name="return" value="notifications.php">
-                    <button class="btn btn-sm btn-outline-primary">Mark all read</button>
-                </form>
+                <?php if ($role === 'Admin'): ?>
+                    <form method="post" action="mark-notification.php">
+                        <input type="hidden" name="all" value="1">
+                        <input type="hidden" name="return" value="notifications.php">
+                        <button class="btn btn-sm btn-outline-primary">Mark all read</button>
+                    </form>
+                <?php endif; ?>
             </div>
 
             <div class="card shadow-sm">

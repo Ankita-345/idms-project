@@ -236,7 +236,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $title = 'New Order Placed';
                 $msg_body = 'Order #' . (int)$new_order_id . ' has been placed.';
                 // Gracefully handle notification failures - don't crash order creation
-                @notify_role($conn, 'Manager', $title, $msg_body, 'view-order.php?id=' . (int)$new_order_id);
                 @notify_role($conn, 'Admin', $title, $msg_body, 'view-order.php?id=' . (int)$new_order_id);
             }
             

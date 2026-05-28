@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Ensure $canCreate is always defined to avoid "Undefined variable" warnings
-$canCreate = in_array($_SESSION['role'] ?? '', ['Admin','Manager','Client']);
+$canCreate = in_array($_SESSION['role'] ?? '', ['Admin','Client']);
 
 $search = trim($_GET['search'] ?? '');
 $status_filter = trim($_GET['status'] ?? '');

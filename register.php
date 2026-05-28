@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = trim($_POST['phone'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
-    $role = $_POST['role'] ?? 'Client';
+    $role = 'Client'; // Force role to Client for all public registrations
 
     if (empty($full_name) || empty($email) || empty($phone) || empty($password) || empty($confirm_password)) {
         $error = 'All fields are required.';
@@ -126,15 +126,6 @@ include 'includes/header.php';
                                     <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="role" class="form-label">Select Role</label>
-                            <select class="form-select" id="role" name="role" required>
-                                <?php $roles = ['Admin', 'Manager', 'Delivery', 'Client']; ?>
-                                <?php foreach ($roles as $value): ?>
-                                    <option value="<?= $value ?>" <?= $role === $value ? 'selected' : '' ?>><?= $value ?></option>
-                                <?php endforeach; ?>
-                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg w-100">Register</button>
                     </form>
