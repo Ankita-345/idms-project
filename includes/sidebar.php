@@ -22,6 +22,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <a class="nav-link <?= $currentPage === 'clients.php' ? 'active' : '' ?>" href="clients.php"><i class="bi bi-people"></i>Clients</a>
                     </li>
                     <li class="nav-item mb-1">
+                        <a class="nav-link <?= $currentPage === 'add-admin.php' ? 'active' : '' ?>" href="add-admin.php"><i class="bi bi-person-plus"></i>Add Admin</a>
+                    </li>
+                    <li class="nav-item mb-1">
                         <a class="nav-link <?= $currentPage === 'orders.php' ? 'active' : '' ?>" href="orders.php"><i class="bi bi-bag-check"></i>Orders</a>
                     </li>
                     <li class="nav-item mb-1">

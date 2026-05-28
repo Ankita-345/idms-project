@@ -13,6 +13,8 @@ $email = '';
 $phone = '';
 $credit_limit = '0.00';
 $payment_terms = '';
+$password = '';
+$confirm_password = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve and sanitize form inputs
@@ -24,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = trim($_POST['phone'] ?? '');
     $credit_limit = $_POST['credit_limit'] ?? '0.00';
     $payment_terms = trim($_POST['payment_terms'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
 
     // Validate required fields
     if (empty($company_name)) {
@@ -34,17 +38,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Client category is required.';
     } elseif (empty($phone)) {
         $error = 'Phone number is required.';
-    } elseif (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = 'Email format is invalid.';
+    } elseif (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'A valid email is required.';
+    } elseif (empty($password)) {
+        $error = 'Password is required.';
+    } elseif ($password !== $confirm_password) {
+        $error = 'Passwords do not match.';
     } elseif ($credit_limit < 0) {
         $error = 'Credit limit cannot be negative.';
     } else {
-        // Insert client into database
-        $stmt = mysqli_prepare($conn, 'INSERT INTO clients (company_name, business_type, category, contact_person, email, phone, credit_limit, payment_terms) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
-        mysqli_stmt_bind_param($stmt, 'ssssssds', $company_name, $business_type, $category, $contact_person, $email, $phone, $credit_limit, $payment_terms);
+        mysqli_begin_transaction($conn);
+        try {
+            // Check for existing email
+            $stmt = mysqli_prepare($conn, 'SELECT id FROM users WHERE email = ?');
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_store_result($stmt);
+            if (mysqli_stmt_num_rows($stmt) > 0) {
+                throw new Exception('Email already exists.');
+            }
+            mysqli_stmt_close($stmt);
 
-        if (mysqli_stmt_execute($stmt)) {
+            // Create user
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $role = 'Client';
+            $stmt = mysqli_prepare($conn, 'INSERT INTO users (full_name, email, phone, password, role) VALUES (?, ?, ?, ?, ?)');
+            mysqli_stmt_bind_param($stmt, 'sssss', $contact_person, $email, $phone, $hashed_password, $role);
+            if (!mysqli_stmt_execute($stmt)) {
+                throw new Exception('Failed to create user.');
+            }
+            $new_user_id = mysqli_insert_id($conn);
+            mysqli_stmt_close($stmt);
+
+            // Insert client into database
+            $stmt = mysqli_prepare($conn, 'INSERT INTO clients (user_id, company_name, business_type, category, contact_person, email, phone, credit_limit, payment_terms) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            mysqli_stmt_bind_param($stmt, 'issssssds', $new_user_id, $company_name, $business_type, $category, $contact_person, $email, $phone, $credit_limit, $payment_terms);
+
+            if (!mysqli_stmt_execute($stmt)) {
+                throw new Exception('Failed to add client.');
+            }
             $client_id = mysqli_insert_id($conn);
+            mysqli_stmt_close($stmt);
 
             // Get delivery address data from POST
             $street_address = trim($_POST['street_address'] ?? '');
@@ -62,23 +96,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 mysqli_stmt_close($address_stmt);
             }
 
-            $success = 'Client added successfully. <a href="clients.php">Back to list</a>.';
+            mysqli_commit($conn);
+            $success = 'Client and user created successfully. <a href="clients.php">Back to list</a>.';
             // Reset form
-            $company_name = '';
-            $business_type = '';
-            $category = '';
-            $contact_person = '';
-            $email = '';
-            $phone = '';
-            $credit_limit = '0.00';
-            $payment_terms = '';
-            $street_address = '';
-            $city = '';
-            $postal_code = '';
-        } else {
-            $error = 'Failed to add client. Please try again.';
+            $company_name = $business_type = $category = $contact_person = $email = $phone = $credit_limit = $payment_terms = '';
+            $_POST['street_address'] = $_POST['city'] = $_POST['state'] = $_POST['postal_code'] = '';
+
+        } catch (Exception $e) {
+            mysqli_rollback($conn);
+            $error = $e->getMessage();
         }
-        mysqli_stmt_close($stmt);
     }
 }
 
@@ -147,8 +174,19 @@ include 'includes/header.php';
                                         <input type="text" class="form-control" id="phone" name="phone" value="<?= htmlspecialchars($phone) ?>" required>
                                     </div>
                                     <div class="col-12 col-md-6 mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($email) ?>">
+                                        <label for="email" class="form-label">Email / Username <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label for="confirm_password" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                                     </div>
                                 </div>
 

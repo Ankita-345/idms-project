@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
     $vehicle_type = $_POST['vehicle_type'] ?? 'Truck';
     $vehicle_capacity = trim($_POST['vehicle_capacity'] ?? '');
     $availability_status = $_POST['availability_status'] ?? 'Available';
@@ -33,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($driver_name) || empty($email) || empty($phone) || empty($password)) {
         $error = 'Driver Name, Email, Phone, and Password are required.';
+    } elseif ($password !== $confirm_password) {
+        $error = 'Passwords do not match.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Invalid email format.';
     } else {
@@ -118,6 +121,10 @@ include 'includes/header.php';
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label" for="password">Password</label>
                                         <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label" for="confirm_password">Confirm Password</label>
+                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                                     </div>
                                 </div>
                                 <hr class="my-4">
