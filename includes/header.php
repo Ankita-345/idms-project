@@ -37,26 +37,41 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
             color: #f8fafc;
         }
         .sidebar {
-            background: linear-gradient(180deg, #111827 0%, #0f172a 55%, #020617 100%);
-            position: sticky;
-            top: 56px; /* Height of navbar */
-            height: calc(100vh - 56px);
-            overflow-y: auto;
-            border-right: 1px solid rgba(148,163,184,.18);
-        }
-        .sidebar .nav-link {
-            color: #cbd5e1;
-            padding: .85rem 1.25rem;
-            border-radius: 12px;
-            transition: background .2s ease, color .2s ease;
-            font-weight: 500;
-            margin: 0 .5rem;
-        }
+    background: linear-gradient(180deg, #111827 0%, #0f172a 55%, #020617 100%);
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: hidden !important;
+    border-right: 1px solid rgba(148,163,184,.18);
+
+    min-width: 210px !important;
+    width: 210px !important;
+}
+        .sidebar::-webkit-scrollbar {
+    display: none;
+}
+     .sidebar .nav-link {
+    color: #cbd5e1;
+    padding: .85rem 1.25rem;
+    border-radius: 12px;
+    transition: background .2s ease, color .2s ease;
+    font-weight: 500;
+    margin: 0 .5rem;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    white-space: nowrap !important;
+}
         .sidebar .nav-link .bi {
-            margin-right: .75rem;
-            color: #93c5fd;
-            transition: color .2s ease;
-        }
+    color: #93c5fd;
+    transition: color .2s ease;
+
+    width: 22px !important;
+    min-width: 22px !important;
+    margin-right: 0 !important;
+    text-align: center !important;
+}
         .sidebar .nav-link:hover {
             color: #ffffff;
             background-color: rgba(56,189,248,.12);
