@@ -43,7 +43,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'Client') {
     ];
 }
 // Build query with optional filters
-$sql = 'SELECT o.id, o.ice_type, o.quantity, o.delivery_date, o.delivery_time_slot, o.status, o.assigned_team_id, dt.driver_name AS assigned_team_name, c.company_name, c.email AS client_email, c.phone AS client_phone, COALESCE(o.delivery_city, ca.city) AS city, o.client_id FROM orders o LEFT JOIN clients c ON o.client_id = c.id LEFT JOIN client_addresses ca ON o.client_address_id = ca.id LEFT JOIN delivery_teams dt ON o.assigned_team_id = dt.id';
+$sql = 'SELECT o.id, o.ice_type, o.quantity, o.amount, o.payment_mode, o.payment_status, o.delivery_date, o.delivery_time_slot, o.status, o.assigned_team_id, dt.driver_name AS assigned_team_name, c.company_name, c.email AS client_email, c.phone AS client_phone, COALESCE(o.delivery_city, ca.city) AS city, o.client_id FROM orders o LEFT JOIN clients c ON o.client_id = c.id LEFT JOIN client_addresses ca ON o.client_address_id = ca.id LEFT JOIN delivery_teams dt ON o.assigned_team_id = dt.id';
 $where = [];
 $params = [];
 $types = '';
@@ -246,6 +246,8 @@ include 'includes/header.php';
                                         <th>Client</th>
                                         <th>Ice</th>
                                         <th>Qty</th>
+                                        <th>Amount</th>
+                                        <th>Payment</th>
                                         <th>Delivery</th>
                                         <th>City</th>
                                         <th>Team</th>
@@ -260,6 +262,14 @@ include 'includes/header.php';
                                             <td><strong><?= htmlspecialchars($o['company_name'] ?? 'Client removed') ?></strong></td>
                                             <td><span class="badge-inline" style="background: rgba(56,189,248,.15); color: #0284c7;"><?= htmlspecialchars($o['ice_type']) ?></span></td>
                                             <td><?= htmlspecialchars($o['quantity'] . ' ' . ($unit_map[$o['ice_type']] ?? 'KG')) ?></td>
+                                            <td>
+                                                <span class="badge bg-<?= $payment_status_classes[$o['payment_status']] ?? 'secondary' ?>">
+                                                    <?= htmlspecialchars(ucfirst($o['payment_status'] ?? 'N/A')) ?>
+                                                </span>
+                                                <?php if (!empty($o['payment_mode'])): ?>
+                                                    <small class="d-block text-muted"><?= htmlspecialchars(ucfirst($o['payment_mode'])) ?></small>
+                                                <?php endif; ?>
+                                            </td>
                                             <td><?= htmlspecialchars($o['delivery_date']) ?><br><small class="text-muted"><?= htmlspecialchars($o['delivery_time_slot']) ?></small></td>
                                             <td><?= htmlspecialchars($o['city'] ?? '-') ?></td>
                                             <td><?= htmlspecialchars($o['assigned_team_name'] ?? '-') ?></td>
@@ -269,6 +279,11 @@ include 'includes/header.php';
                                                     <a href="view-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-primary d-flex align-items-center" title="View">
                                                         <i class="bi bi-eye me-1"></i><span class="d-none d-md-inline">View</span>
                                                     </a>
+                                                    <?php if (($_SESSION['role'] ?? '') === 'Client' && ($o['payment_status'] ?? '') === 'pending'): ?>
+                                                        <a href="pay-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-success d-flex align-items-center" title="Pay Now">
+                                                            <i class="bi bi-credit-card me-1"></i><span class="d-none d-md-inline">Pay</span>
+                                                        </a>
+                                                    <?php endif; ?>
                                                     <?php if (in_array($_SESSION['role'] ?? '', ['Admin','Manager'])): ?>
                                                         <a href="assign-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-info text-white d-flex align-items-center" title="Assign">
                                                             <i class="bi bi-truck me-1"></i><span class="d-none d-md-inline">Assign</span>
