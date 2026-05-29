@@ -153,10 +153,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Select a valid delivery time slot.';
     } else {
         // Check inventory stock availability BEFORE attempting to create order
-        $inv_check_stmt = mysqli_prepare($conn, 'SELECT quantity FROM inventory WHERE ice_type = ? LIMIT 1');
+        $price = 0;
+        $inv_check_stmt = mysqli_prepare($conn, 'SELECT quantity, price FROM inventory WHERE ice_type = ? LIMIT 1');
         mysqli_stmt_bind_param($inv_check_stmt, 's', $ice_type);
         mysqli_stmt_execute($inv_check_stmt);
-        mysqli_stmt_bind_result($inv_check_stmt, $available_qty);
+        mysqli_stmt_bind_result($inv_check_stmt, $available_qty, $price);
         $inv_exists = mysqli_stmt_fetch($inv_check_stmt);
         mysqli_stmt_close($inv_check_stmt);
 
@@ -168,6 +169,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($error)) {
+        // Calculate amount
+        $amount = (float)($price ?? 0) * (int)$quantity;
         // If client_address_id is provided, try to pull address snapshot
         if ($client_address_id) {
             $a_stmt = mysqli_prepare($conn, 'SELECT street_address, city, state, postal_code FROM client_addresses WHERE id = ? AND client_id = ? LIMIT 1');
@@ -200,10 +203,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Create order
             $inv_deducted = 0;
-            $stmt = mysqli_prepare($conn, 'INSERT INTO orders (client_id, client_address_id, ice_type, quantity, bulk_order, recurring, delivery_date, delivery_time_slot, delivery_street, delivery_city, delivery_state, delivery_postal_code, special_instructions, inventory_deducted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-            // types: client_id(i), client_address_id(i), ice_type(s), quantity(i), bulk_order(i), recurring(i), delivery_date(s), delivery_time_slot(s), delivery_street(s), delivery_city(s), delivery_state(s), delivery_postal_code(s), special_instructions(s), inventory_deducted(i)
-            mysqli_stmt_bind_param($stmt, 'iisiiisssssssi', $client_id, $client_address_id, $ice_type, $quantity, $bulk_order, $recurring, $delivery_date, $delivery_time_slot, $delivery_street, $delivery_city, $delivery_state, $delivery_postal_code, $special_instructions, $inv_deducted);
-
+            $stmt = mysqli_prepare($conn, 'INSERT INTO orders (client_id, client_address_id, ice_type, quantity, amount, bulk_order, recurring, delivery_date, delivery_time_slot, delivery_street, delivery_city, delivery_state, delivery_postal_code, special_instructions, inventory_deducted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            // types: client_id(i), client_address_id(i), ice_type(s), quantity(i), amount(d), bulk_order(i), recurring(i), delivery_date(s), delivery_time_slot(s), delivery_street(s), delivery_city(s), delivery_state(s), delivery_postal_code(s), special_instructions(s), inventory_deducted(i)
+              mysqli_stmt_bind_param($stmt, 'iisidiisssssssi', $client_id, $client_address_id, $ice_type, $quantity, $amount, $bulk_order, $recurring, $delivery_date, $delivery_time_slot, $delivery_street, $delivery_city, $delivery_state, $delivery_postal_code, $special_instructions, $inv_deducted);
             if (mysqli_stmt_execute($stmt)) {
                 $new_order_id = mysqli_insert_id($conn);
 
