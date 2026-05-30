@@ -166,6 +166,26 @@ include 'includes/header.php';
 .status-completed { background-color: #dcfce7; color: #166534; }
 .status-cancelled { background-color: #fef2f2; color: #b91c1c; }
 .status-failed { background-color: #fee2e2; color: #991b1b; }
+
+.table th.actions-column,
+.table td.actions-column {
+    max-width: 280px;
+    width: 280px;
+}
+
+.table th.status-column,
+.table td.status-column {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.actions-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    flex-wrap: wrap;
+}
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -239,72 +259,102 @@ include 'includes/header.php';
                 <div class="card-body">
                     <?php if (!empty($orders)): ?>
                         <div class="table-responsive">
-                   <table class="table table-hover align-middle modern-table">
-                    <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Client</th>
-                                        <th>Ice</th>
-                                        <th>Qty</th>
-                                        <th>Amount</th>
-                                        <th>Payment</th>
-                                        <th>Delivery</th>
-                                        <th>City</th>
-                                        <th>Team</th>
-                                        <th>Status</th>
-                                        <th class="text-end">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($orders as $o): ?>
-                                        <tr>
-                                            <td><span class="badge bg-light text-dark">#<?= $o['id'] ?></span></td>
-                                            <td><strong><?= htmlspecialchars($o['company_name'] ?? 'Client removed') ?></strong></td>
-                                            <td><span class="badge-inline" style="background: rgba(56,189,248,.15); color: #0284c7;"><?= htmlspecialchars($o['ice_type']) ?></span></td>
-                                            <td><?= htmlspecialchars($o['quantity'] . ' ' . ($unit_map[$o['ice_type']] ?? 'KG')) ?></td>
-                                            <td>
-                                                <span class="badge bg-<?= $payment_status_classes[$o['payment_status']] ?? 'secondary' ?>">
-                                                    <?= htmlspecialchars(ucfirst($o['payment_status'] ?? 'N/A')) ?>
-                                                </span>
-                                                <?php if (!empty($o['payment_mode'])): ?>
-                                                    <small class="d-block text-muted"><?= htmlspecialchars(ucfirst($o['payment_mode'])) ?></small>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td><?= htmlspecialchars($o['delivery_date']) ?><br><small class="text-muted"><?= htmlspecialchars($o['delivery_time_slot']) ?></small></td>
-                                            <td><?= htmlspecialchars($o['city'] ?? '-') ?></td>
-                                            <td><?= htmlspecialchars($o['assigned_team_name'] ?? '-') ?></td>
-                                            <td><span class="badge status-badge status-<?= strtolower(str_replace(' ', '-', $o['status'])) ?>"><?= htmlspecialchars($o['status']) ?></span></td>
-                                            <td class="text-end">
-                                                <div class="d-flex justify-content-end flex-wrap gap-2">
-                                                    <a href="view-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-primary d-flex align-items-center" title="View">
-                                                        <i class="bi bi-eye me-1"></i><span class="d-none d-md-inline">View</span>
-                                                    </a>
-                                                    <?php if (($_SESSION['role'] ?? '') === 'Client' && ($o['payment_status'] ?? '') === 'pending'): ?>
-                                                        <a href="pay-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-success d-flex align-items-center" title="Pay Now">
-                                                            <i class="bi bi-credit-card me-1"></i><span class="d-none d-md-inline">Pay</span>
-                                                        </a>
-                                                    <?php endif; ?>
-                                                    <?php if (in_array($_SESSION['role'] ?? '', ['Admin','Manager'])): ?>
-                                                        <a href="assign-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-info text-white d-flex align-items-center" title="Assign">
-                                                            <i class="bi bi-truck me-1"></i><span class="d-none d-md-inline">Assign</span>
-                                                        </a>
-                                                    <?php endif; ?>
-                                                    <?php if (in_array($_SESSION['role'] ?? '', ['Admin','Manager','Delivery'])): ?>
-                                                        <a href="update-order-status.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-success d-flex align-items-center" title="Update Status">
-                                                            <i class="bi bi-check2-circle me-1"></i><span class="d-none d-md-inline">Update</span>
-                                                        </a>
-                                                    <?php endif; ?>
-                                                    <?php if ($_SESSION['role'] ?? '' === 'Client' && $canCreate): ?>
-                                                        <a href="edit-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-outline-secondary d-flex align-items-center" title="Edit">
-                                                            <i class="bi bi-pencil-square me-1"></i><span class="d-none d-md-inline">Edit</span>
-                                                        </a>
-                                                    <?php endif; ?>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+    <table class="table table-hover align-middle modern-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Client</th>
+                <th>Ice</th>
+                <th>Qty</th>
+                <th>Amount</th>
+                <th>Payment</th>
+                <th>Delivery</th>
+                <th>City</th>
+                <th>Team</th>
+                <th style="width:120px;">Status</th>
+               <th style="width:220px;">Actions</th>           
+             </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($orders as $o): ?>
+                <tr>
+                    <td><span class="badge bg-light text-dark">#<?= htmlspecialchars($o['id']) ?></span></td>
+                    <td><strong><?= htmlspecialchars($o['company_name'] ?? 'Client removed') ?></strong></td>
+                    <td><?= htmlspecialchars($o['ice_type']) ?></td>
+                    <td><?= htmlspecialchars($o['quantity'] . ' ' . ($unit_map[$o['ice_type']] ?? 'KG')) ?></td>
+                    <td><strong>₹<?= htmlspecialchars(number_format((float)($o['amount'] ?? 0), 2)) ?></strong></td>
+                    <td>
+                        <span class="badge bg-<?= ($o['payment_status'] ?? '') === 'paid' ? 'success' : (($o['payment_status'] ?? '') === 'failed' ? 'danger' : 'warning') ?>">
+                            <?= htmlspecialchars(ucfirst($o['payment_status'] ?? 'pending')) ?>
+                        </span>
+                        <?php if (!empty($o['payment_mode'])): ?>
+                            <small class="d-block text-muted mt-1"><?= htmlspecialchars(ucfirst($o['payment_mode'])) ?></small>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?= htmlspecialchars($o['delivery_date']) ?><br>
+                        <small class="text-muted"><?= htmlspecialchars($o['delivery_time_slot']) ?></small>
+                    </td>
+                    <td><?= htmlspecialchars($o['city'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($o['assigned_team_name'] ?? '-') ?></td>
+                    <td class="status-column">
+                        <span class="badge status-badge status-<?= strtolower(str_replace(' ', '-', $o['status'])) ?>">
+                            <?= htmlspecialchars($o['status']) ?>
+                        </span>
+                    </td>
+                    <td class="text-end actions-column">
+                        <div class="actions-container">
+                            <a href="view-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-primary">View</a>
+
+                            <?php if (($_SESSION['role'] ?? '') === 'Client' && ($o['payment_status'] ?? '') === 'pending'): ?>
+                                <a href="pay-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-success">Pay Now</a>
+                            <?php endif; ?>
+
+                            <?php if (($_SESSION['role'] ?? '') === 'Admin'): ?>
+                                <a href="assign-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-info text-white">Assign</a>
+                            <?php endif; ?>
+
+                            <?php if (in_array($_SESSION['role'] ?? '', ['Admin','Delivery'])): ?>
+                                <a href="update-order-status.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-success">Update</a>
+                            <?php endif; ?>
+
+                            <?php if (($_SESSION['role'] ?? '') === 'Client' && $canCreate): ?>
+                                <a href="edit-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <?php endif; ?>
+
+                            <?php if (in_array($_SESSION['role'] ?? '', ['Admin','Delivery']) && ($o['payment_status'] ?? '') === 'pending'): ?>
+                                <div class="dropdown d-inline">
+                                    <button class="btn btn-sm btn-warning text-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        Payment
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <?php if (($_SESSION['role'] ?? '') === 'Admin'): ?>
+                                            <li>
+                                                <a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=paid&mode=online">
+                                                    Mark Paid Online
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+                                        <li>
+                                            <a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=paid&mode=offline">
+                                                Mark Paid Offline
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=failed&mode=online">
+                                                Mark Failed
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
                         </div>
                     <?php else: ?>
                         <div class="text-center py-5" style="color: var(--text-muted);">

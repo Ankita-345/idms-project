@@ -111,6 +111,15 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
         .main-content {
             padding-top: 1.5rem;
         }
+        .modern-table th:last-child,
+        .modern-table td:last-child {
+    width: 220px;
+}
+
+.modern-table th:nth-child(10),
+.modern-table td:nth-child(10) {
+    width: 120px;
+}
 
     </style>
 </head>
