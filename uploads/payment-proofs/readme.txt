@@ -1,0 +1,1 @@
+Payment proof screenshots will be stored here.
