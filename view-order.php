@@ -16,7 +16,7 @@ if ($order_id <= 0) {
 $user_role = $_SESSION['role'] ?? '';
 $user_id_session = $_SESSION['user_id'] ?? 0;
 
-$sql = 'SELECT o.*, c.company_name, c.email AS client_email, c.phone AS client_phone, c.business_type, c.category, ca.street_address AS addr_street, ca.city AS addr_city, ca.state AS addr_state, ca.postal_code AS addr_postal_code, o.delivery_state, dt.driver_name AS assigned_driver, dt.vehicle_type AS assigned_vehicle, dt.route_allocation AS assigned_route, dt.shift_timing AS assigned_shift, dt.user_id AS assigned_user_id, o.delivery_proof_image, o.delivery_otp, o.delivered_at FROM orders o LEFT JOIN clients c ON o.client_id = c.id LEFT JOIN client_addresses ca ON o.client_address_id = ca.id LEFT JOIN delivery_teams dt ON o.assigned_team_id = dt.id WHERE o.id = ?';
+$sql = 'SELECT o.*, c.company_name, c.email AS client_email, c.phone AS client_phone, c.business_type, c.category, ca.street_address AS addr_street, ca.city AS addr_city, ca.state AS addr_state, ca.postal_code AS addr_postal_code, o.delivery_state, dt.driver_name AS assigned_driver, dt.vehicle_type AS assigned_vehicle, dt.route_allocation AS assigned_route, dt.shift_timing AS assigned_shift, dt.user_id AS assigned_user_id, o.delivery_proof, o.delivery_proof_image, o.delivery_otp, o.delivered_at FROM orders o LEFT JOIN clients c ON o.client_id = c.id LEFT JOIN client_addresses ca ON o.client_address_id = ca.id LEFT JOIN delivery_teams dt ON o.assigned_team_id = dt.id WHERE o.id = ?';
 $types = 'i';
 $params = [$order_id];
 
@@ -168,6 +168,20 @@ include 'includes/header.php';
                             <p><strong>Vehicle:</strong> <?= htmlspecialchars($order['assigned_vehicle'] ?? '') ?></p>
                             <p><strong>Route:</strong> <?= htmlspecialchars($order['assigned_route'] ?? '') ?></p>
                             <p><strong>Shift:</strong> <?= htmlspecialchars($order['assigned_shift'] ?? '') ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($order['status'] === 'Delivered' && !empty($order['delivery_proof'])): ?>
+            <div class="row g-4 mt-3">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Delivery Proof</h5>
+                            <p>The delivery was successfully completed. You can view the proof of delivery below.</p>
+                            <a href="<?= htmlspecialchars($order['delivery_proof']) ?>" class="btn btn-success" target="_blank">View Delivery Proof</a>
                         </div>
                     </div>
                 </div>
