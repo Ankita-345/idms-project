@@ -43,7 +43,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'Client') {
     ];
 }
 // Build query with optional filters
-$sql = 'SELECT o.id, o.ice_type, o.quantity, o.amount, o.payment_mode, o.payment_status, o.delivery_date, o.delivery_time_slot, o.status, o.assigned_team_id, dt.driver_name AS assigned_team_name, c.company_name, c.email AS client_email, c.phone AS client_phone, COALESCE(o.delivery_city, ca.city) AS city, o.client_id FROM orders o LEFT JOIN clients c ON o.client_id = c.id LEFT JOIN client_addresses ca ON o.client_address_id = ca.id LEFT JOIN delivery_teams dt ON o.assigned_team_id = dt.id';
+$sql = 'SELECT o.id, o.ice_type, o.quantity, o.amount, o.payment_mode, o.payment_status, o.payment_proof, o.delivery_date, o.delivery_time_slot, o.status, o.assigned_team_id, dt.driver_name AS assigned_team_name, c.company_name, c.email AS client_email, c.phone AS client_phone, COALESCE(o.delivery_city, ca.city) AS city, o.client_id FROM orders o LEFT JOIN clients c ON o.client_id = c.id LEFT JOIN client_addresses ca ON o.client_address_id = ca.id LEFT JOIN delivery_teams dt ON o.assigned_team_id = dt.id';
 $where = [];
 $params = [];
 $types = '';
@@ -284,8 +284,23 @@ include 'includes/header.php';
                     <td><?= htmlspecialchars($o['quantity'] . ' ' . ($unit_map[$o['ice_type']] ?? 'KG')) ?></td>
                     <td><strong>₹<?= htmlspecialchars(number_format((float)($o['amount'] ?? 0), 2)) ?></strong></td>
                     <td>
-                        <span class="badge bg-<?= ($o['payment_status'] ?? '') === 'paid' ? 'success' : (($o['payment_status'] ?? '') === 'failed' ? 'danger' : 'warning') ?>">
-                            <?= htmlspecialchars(ucfirst($o['payment_status'] ?? 'pending')) ?>
+                        <?php
+                        $payment_status = $o['payment_status'] ?? 'pending';
+                        $payment_proof = $o['payment_proof'] ?? null;
+                        $badge_class = 'warning';
+                        $status_text = ucfirst($payment_status);
+
+                        if ($payment_status === 'paid') {
+                            $badge_class = 'success';
+                        } elseif ($payment_status === 'failed') {
+                            $badge_class = 'danger';
+                        } elseif ($payment_status === 'pending' && !empty($payment_proof)) {
+                            $badge_class = 'info';
+                            $status_text = 'Proof Submitted';
+                        }
+                        ?>
+                        <span class="badge bg-<?= $badge_class ?>">
+                            <?= htmlspecialchars($status_text) ?>
                         </span>
                         <?php if (!empty($o['payment_mode'])): ?>
                             <small class="d-block text-muted mt-1"><?= htmlspecialchars(ucfirst($o['payment_mode'])) ?></small>
@@ -306,45 +321,47 @@ include 'includes/header.php';
                         <div class="actions-container">
                             <a href="view-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-primary">View</a>
 
-                            <?php if (($_SESSION['role'] ?? '') === 'Client' && ($o['payment_status'] ?? '') === 'pending'): ?>
-                                <a href="pay-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-success">Pay Now</a>
+                            <?php // CLIENT ACTIONS ?>
+                            <?php if ($_SESSION['role'] === 'Client'): ?>
+                                <?php if ($payment_status === 'pending' && empty($payment_proof)): ?>
+                                    <a href="pay-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-success">Pay Now</a>
+                                <?php elseif ($payment_status === 'failed'): ?>
+                                    <a href="pay-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-danger">Retry Payment</a>
+                                <?php endif; ?>
+                                <?php if ($canCreate): ?>
+                                     <a href="edit-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                <?php endif; ?>
                             <?php endif; ?>
 
-                            <?php if (($_SESSION['role'] ?? '') === 'Admin'): ?>
+                            <?php // ADMIN/DELIVERY ACTIONS ?>
+                            <?php if (in_array($_SESSION['role'], ['Admin', 'Manager'])): ?>
                                 <a href="assign-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-info text-white">Assign</a>
                             <?php endif; ?>
-
-                            <?php if (in_array($_SESSION['role'] ?? '', ['Admin','Delivery'])): ?>
+                             <?php if (in_array($_SESSION['role'], ['Admin', 'Manager', 'Delivery'])): ?>
                                 <a href="update-order-status.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-success">Update</a>
                             <?php endif; ?>
 
-                            <?php if (($_SESSION['role'] ?? '') === 'Client' && $canCreate): ?>
-                                <a href="edit-order.php?id=<?= $o['id'] ?>" class="btn btn-sm btn-outline-secondary">Edit</a>
-                            <?php endif; ?>
-
-                            <?php if (in_array($_SESSION['role'] ?? '', ['Admin','Delivery']) && ($o['payment_status'] ?? '') === 'pending'): ?>
+                            <?php if ($_SESSION['role'] === 'Admin' && $payment_status === 'pending' && !empty($payment_proof)): ?>
+                                <a href="<?= htmlspecialchars($payment_proof) ?>" class="btn btn-sm btn-secondary" target="_blank">View Proof</a>
                                 <div class="dropdown d-inline">
                                     <button class="btn btn-sm btn-warning text-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        Verify
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=paid&mode=online">Mark Paid (Online)</a></li>
+                                        <li><a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=failed">Mark as Failed</a></li>
+                                    </ul>
+                                </div>
+                            <?php elseif (in_array($_SESSION['role'], ['Admin', 'Delivery']) && $payment_status === 'pending' && empty($payment_proof)): ?>
+                                 <div class="dropdown d-inline">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                         Payment
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <?php if (($_SESSION['role'] ?? '') === 'Admin'): ?>
-                                            <li>
-                                                <a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=paid&mode=online">
-                                                    Mark Paid Online
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
-                                        <li>
-                                            <a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=paid&mode=offline">
-                                                Mark Paid Offline
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=failed&mode=online">
-                                                Mark Failed
-                                            </a>
-                                        </li>
+                                         <?php if ($_SESSION['role'] === 'Admin'): ?>
+                                            <li><a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=paid&mode=online">Mark Paid (Online)</a></li>
+                                         <?php endif; ?>
+                                        <li><a class="dropdown-item" href="update-payment-status.php?id=<?= $o['id'] ?>&status=paid&mode=offline">Mark Paid (Offline)</a></li>
                                     </ul>
                                 </div>
                             <?php endif; ?>
