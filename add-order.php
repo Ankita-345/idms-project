@@ -169,8 +169,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($error)) {
-        // Calculate amount
-        $amount = (float)($price ?? 0) * (int)$quantity;
+        // Calculate amount with a fixed rate of 100 per unit
+        $amount = (int)$quantity * 100;
         // If client_address_id is provided, try to pull address snapshot
         if ($client_address_id) {
             $a_stmt = mysqli_prepare($conn, 'SELECT street_address, city, state, postal_code FROM client_addresses WHERE id = ? AND client_id = ? LIMIT 1');
