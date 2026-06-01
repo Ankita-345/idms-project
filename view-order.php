@@ -85,65 +85,104 @@ include 'includes/header.php';
         <?php include 'includes/sidebar.php'; ?>
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="mb-4 border-bottom pb-3 d-flex justify-content-between align-items-center">
-                <div>
-                    <h1 class="h2">Order #<?= htmlspecialchars($order['id']) ?></h1>
-                    <p class="text-muted mb-0">Track order status and review details.</p>
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Order #<?= htmlspecialchars($order['id']) ?></h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="orders.php" class="btn btn-sm btn-outline-secondary">Back to Orders</a>
                 </div>
-                <a href="orders.php" class="btn btn-outline-secondary">Back to Orders</a>
             </div>
+
             <?php if (!empty($_GET['success'])): ?>
                 <div class="alert alert-success"><?= htmlspecialchars($_GET['success']) ?></div>
             <?php endif; ?>
 
-            <div class="row g-4">
-                <div class="col-12 col-lg-6">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Order Details</h5>
-                            <p><strong>Ice Type:</strong> <?= htmlspecialchars($order['ice_type']) ?></p>
-                            <p><strong>Quantity:</strong> <?= htmlspecialchars($order['quantity'] . ' ' . ($unit_map[$order['ice_type']] ?? 'KG')) ?></p>
-                            <p><strong>Delivery Date:</strong> <?= htmlspecialchars($order['delivery_date']) ?></p>
-                            <p><strong>Time Slot:</strong> <?= htmlspecialchars($order['delivery_time_slot']) ?></p>
-                            <p><strong>Status:</strong> <span class="badge bg-<?= $status_badge ?>"><?= htmlspecialchars($order['status']) ?></span></p>
-                            <p><strong>Bulk Order:</strong> <?= $order['bulk_order'] ? 'Yes' : 'No' ?></p>
-                            <p><strong>Recurring Order:</strong> <?= $order['recurring'] ? 'Yes' : 'No' ?></p>
-                            <p><strong>Special Instructions:</strong><br><?= nl2br(htmlspecialchars($order['special_instructions'])) ?></p>
+            <!-- Main Details Row -->
+            <div class="row g-4 mb-4">
+                <!-- Order Details Card -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-3">Order Details</h5>
+                            <dl class="row mb-0">
+                                <dt class="col-sm-5">Ice Type:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['ice_type']) ?></dd>
+
+                                <dt class="col-sm-5">Quantity:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['quantity'] . ' ' . ($unit_map[$order['ice_type']] ?? 'KG')) ?></dd>
+
+                                <dt class="col-sm-5">Delivery Date:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['delivery_date']) ?></dd>
+
+                                <dt class="col-sm-5">Time Slot:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['delivery_time_slot']) ?></dd>
+
+                                <dt class="col-sm-5">Status:</dt>
+                                <dd class="col-sm-7"><span class="badge bg-<?= $status_badge ?>"><?= htmlspecialchars($order['status']) ?></span></dd>
+
+                                <dt class="col-sm-5">Bulk Order:</dt>
+                                <dd class="col-sm-7"><?= $order['bulk_order'] ? 'Yes' : 'No' ?></dd>
+
+                                <dt class="col-sm-5">Recurring:</dt>
+                                <dd class="col-sm-7"><?= $order['recurring'] ? 'Yes' : 'No' ?></dd>
+
+                                <?php if(!empty($order['special_instructions'])): ?>
+                                <dt class="col-sm-5">Instructions:</dt>
+                                <dd class="col-sm-7"><?= nl2br(htmlspecialchars($order['special_instructions'])) ?></dd>
+                                <?php endif; ?>
+                            </dl>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-6">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Delivery Address</h5>
-                            <p><strong>Street:</strong> <?= htmlspecialchars($order['delivery_street'] ?? $order['addr_street'] ?? 'N/A') ?></p>
-                            <p><strong>City:</strong> <?= htmlspecialchars($order['delivery_city'] ?? $order['addr_city'] ?? 'N/A') ?></p>
-                            <p><strong>State:</strong> <?= htmlspecialchars($order['delivery_state'] ?? $order['addr_state'] ?? 'N/A') ?></p>
-                            <p><strong>Postal Code:</strong> <?= htmlspecialchars($order['delivery_postal_code'] ?? $order['addr_postal_code'] ?? 'N/A') ?></p>
+                <!-- Delivery Address Card -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-3">Delivery Address</h5>
+                            <dl class="row mb-0">
+                                <dt class="col-sm-5">Street:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['delivery_street'] ?? $order['addr_street'] ?? 'N/A') ?></dd>
+
+                                <dt class="col-sm-5">City:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['delivery_city'] ?? $order['addr_city'] ?? 'N/A') ?></dd>
+
+                                <dt class="col-sm-5">State:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['delivery_state'] ?? $order['addr_state'] ?? 'N/A') ?></dd>
+
+                                <dt class="col-sm-5">Postal Code:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['delivery_postal_code'] ?? $order['addr_postal_code'] ?? 'N/A') ?></dd>
+                            </dl>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row g-4 mt-3">
-                <div class="col-12 col-lg-6">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Client Info</h5>
-                            <p><strong>Company:</strong> <?= htmlspecialchars($order['company_name'] ?? 'N/A') ?></p>
-                            <p><strong>Email:</strong> <?= htmlspecialchars($order['client_email'] ?? 'N/A') ?></p>
-                            <p><strong>Phone:</strong> <?= htmlspecialchars($order['client_phone'] ?? 'N/A') ?></p>
-                            <p><strong>Business Type:</strong> <?= htmlspecialchars($order['business_type'] ?? 'N/A') ?></p>
-                            <p><strong>Category:</strong> <?= htmlspecialchars($order['category'] ?? 'N/A') ?></p>
+            <!-- Secondary Details Row -->
+            <div class="row g-4 mb-4">
+                <!-- Client Info Card -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-3">Client Info</h5>
+                            <dl class="row mb-0">
+                                <dt class="col-sm-5">Company:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['company_name'] ?? 'N/A') ?></dd>
+
+                                <dt class="col-sm-5">Email:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['client_email'] ?? 'N/A') ?></dd>
+
+                                <dt class="col-sm-5">Phone:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['client_phone'] ?? 'N/A') ?></dd>
+                            </dl>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-6">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Order Status Tracking</h5>
+                <!-- Status Tracking Card -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-3">Order Status Tracking</h5>
                             <div class="list-group">
                                 <?php foreach ($status_colors as $status_name => $badge_color): ?>
                                     <div class="list-group-item d-flex justify-content-between align-items-center <?= $order['status'] === $status_name ? 'active text-white' : '' ?>">
@@ -158,35 +197,44 @@ include 'includes/header.php';
                     </div>
                 </div>
             </div>
-            <?php if (!empty($order['assigned_driver'])): ?>
-            <div class="row g-4 mt-3">
-                <div class="col-12">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Assigned Delivery Team</h5>
-                            <p><strong>Driver:</strong> <?= htmlspecialchars($order['assigned_driver']) ?></p>
-                            <p><strong>Vehicle:</strong> <?= htmlspecialchars($order['assigned_vehicle'] ?? '') ?></p>
-                            <p><strong>Route:</strong> <?= htmlspecialchars($order['assigned_route'] ?? '') ?></p>
-                            <p><strong>Shift:</strong> <?= htmlspecialchars($order['assigned_shift'] ?? '') ?></p>
+
+            <!-- Tertiary Details Row for Delivery and Proof -->
+            <div class="row g-4">
+                <?php if (!empty($order['assigned_driver'])): ?>
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-3">Assigned Delivery Team</h5>
+                            <dl class="row mb-0">
+                                <dt class="col-sm-5">Driver:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['assigned_driver']) ?></dd>
+
+                                <dt class="col-sm-5">Vehicle:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['assigned_vehicle'] ?? '') ?></dd>
+
+                                <dt class="col-sm-5">Route:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['assigned_route'] ?? '') ?></dd>
+
+                                <dt class="col-sm-5">Shift:</dt>
+                                <dd class="col-sm-7"><?= htmlspecialchars($order['assigned_shift'] ?? '') ?></dd>
+                            </dl>
                         </div>
                     </div>
                 </div>
-            </div>
-            <?php endif; ?>
+                <?php endif; ?>
 
-            <?php if ($order['status'] === 'Delivered' && !empty($order['delivery_proof'])): ?>
-            <div class="row g-4 mt-3">
-                <div class="col-12">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Delivery Proof</h5>
-                            <p>The delivery was successfully completed. You can view the proof of delivery below.</p>
+                <?php if ($order['status'] === 'Delivered' && !empty($order['delivery_proof'])): ?>
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4 text-center">
+                            <h5 class="card-title mb-3">Delivery Proof</h5>
+                            <p>Proof of delivery has been submitted.</p>
                             <a href="<?= htmlspecialchars($order['delivery_proof']) ?>" class="btn btn-success" target="_blank">View Delivery Proof</a>
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
-            <?php endif; ?>
 
             <?php if (($_SESSION['role'] ?? '') === 'Delivery' && $order['assigned_user_id'] == $_SESSION['user_id'] && $order['status'] === 'Out for Delivery'): ?>
             <div class="row g-4 mt-3">
