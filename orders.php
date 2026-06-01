@@ -43,7 +43,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'Client') {
     ];
 }
 // Build query with optional filters
-$sql = 'SELECT o.id, o.ice_type, o.quantity, o.amount, o.payment_mode, o.payment_status, o.payment_proof, o.delivery_date, o.delivery_time_slot, o.status, o.assigned_team_id, dt.driver_name AS assigned_team_name, c.company_name, c.email AS client_email, c.phone AS client_phone, COALESCE(o.delivery_city, ca.city) AS city, o.client_id FROM orders o LEFT JOIN clients c ON o.client_id = c.id LEFT JOIN client_addresses ca ON o.client_address_id = ca.id LEFT JOIN delivery_teams dt ON o.assigned_team_id = dt.id';
+$sql = 'SELECT o.id, o.ice_type, o.quantity, o.amount, o.payment_mode, o.payment_status, o.payment_proof, o.delivery_proof, o.delivery_date, o.delivery_time_slot, o.status, o.assigned_team_id, dt.driver_name AS assigned_team_name, c.company_name, c.email AS client_email, c.phone AS client_phone, COALESCE(o.delivery_city, ca.city) AS city, o.client_id FROM orders o LEFT JOIN clients c ON o.client_id = c.id LEFT JOIN client_addresses ca ON o.client_address_id = ca.id LEFT JOIN delivery_teams dt ON o.assigned_team_id = dt.id';
 $where = [];
 $params = [];
 $types = '';
@@ -372,7 +372,7 @@ include 'includes/header.php';
         </tbody>
     </table>
 </div>
-                        </div>
+                       // </div>
                     <?php else: ?>
                         <div class="text-center py-5" style="color: var(--text-muted);">
                             <i class="bi bi-card-list" style="font-size: 3rem; opacity: 0.24; margin-bottom: 1rem; display: block;"></i>

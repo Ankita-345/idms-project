@@ -37,3 +37,18 @@ Parsed quantity variable: 9
 --- New Order Request ---
 Raw POST quantity: 7
 Parsed quantity variable: 7
+--- New Order Request ---
+Raw POST quantity: 1
+Parsed quantity variable: 1
+--- New Order Request ---
+Raw POST quantity: 3
+Parsed quantity variable: 3
+--- New Order Request ---
+Raw POST quantity: 5
+Parsed quantity variable: 5
+--- New Order Request ---
+Raw POST quantity: 2
+Parsed quantity variable: 2
+--- New Order Request ---
+Raw POST quantity: 5
+Parsed quantity variable: 5
