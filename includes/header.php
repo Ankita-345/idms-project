@@ -37,6 +37,8 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
             color: #f8fafc;
         }
         .sidebar {
+            /* background: rgba(240, 248, 255, 0.15);
+            backdrop-filter: blur(12px); */
     background: linear-gradient(180deg, #111827 0%, #0f172a 55%, #020617 100%);
     position: sticky;
     top: 56px;
@@ -87,8 +89,10 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
     text-align: center !important;
 }
         .sidebar .nav-link:hover {
-            color: #ffffff;
-            background-color: rgba(56,189,248,.12);
+             /* background: rgba(135, 206, 235, 0.3); /* Sky blue ice highlight */
+                /* color: #ffffff; */ 
+             color: #ffffff; 
+             background-color: rgba(56,189,248,.12); 
         }
         .sidebar .nav-link:hover .bi {
             color: #38bdf8;

@@ -134,8 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($error)) {
             $u_stmt = mysqli_prepare($conn, 'UPDATE orders SET client_id = ?, client_address_id = ?, ice_type = ?, quantity = ?, bulk_order = ?, recurring = ?, delivery_date = ?, delivery_time_slot = ?, delivery_street = ?, delivery_city = ?, delivery_state = ?, delivery_postal_code = ?, special_instructions = ?, inventory_deducted = ?, status = ? WHERE id = ?');
-            mysqli_stmt_bind_param($u_stmt, 'iisiiissssssssisi', $client_id, $client_address_id, $ice_type, $quantity, $bulk_order, $recurring, $delivery_date, $delivery_time_slot, $delivery_street, $delivery_city, $delivery_state, $delivery_postal_code, $special_instructions, $new_inventory_deducted, $status, $order_id);
-
+             mysqli_stmt_bind_param($u_stmt, 'iisiiisssssssisi', $client_id, $client_address_id, $ice_type, $quantity, $bulk_order, $recurring, $delivery_date, $delivery_time_slot, $delivery_street, $delivery_city, $delivery_state, $delivery_postal_code, $special_instructions, $new_inventory_deducted, $status, $order_id);
             if (mysqli_stmt_execute($u_stmt)) {
                 if ($inventory_action !== '') mysqli_commit($conn);
                 $success = 'Order updated.';
