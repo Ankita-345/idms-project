@@ -182,17 +182,21 @@ include 'includes/header.php';
 .actions-container {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 6px;
     flex-wrap: wrap;
+}
+
+.actions-container .btn,
+.actions-container .dropdown {
+    white-space: nowrap;
 }
 </style>
 <div class="container-fluid">
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="page-header">
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-3 px-md-4 py-4">            <div class="page-header">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
                     <div>
                         <h1 class="page-title">
@@ -372,7 +376,7 @@ include 'includes/header.php';
         </tbody>
     </table>
 </div>
-                       // </div>
+
                     <?php else: ?>
                         <div class="text-center py-5" style="color: var(--text-muted);">
                             <i class="bi bi-card-list" style="font-size: 3rem; opacity: 0.24; margin-bottom: 1rem; display: block;"></i>

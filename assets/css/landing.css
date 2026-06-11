@@ -150,10 +150,9 @@ body {
     font-weight: 700;
 }
 
-.why-choose-us-section .col-md-3:hover .feature-icon {
+.why-choose-us-section .col-12:hover .feature-icon {
     color: #14295c;
 }
-
 /* Footer */
 .footer-section {
     background: linear-gradient(
@@ -191,16 +190,99 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
     .hero-section {
-        padding: 120px 0;
+        padding: 140px 0 90px;
+    }
+
+    .navbar-logo {
+        height: 45px !important;
     }
 
     .hero-logo {
-        max-width: 100px;
+        max-width: 120px;
     }
 
+    .hero-title,
     .hero-section h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
+        line-height: 1.1;
+    }
+
+    .hero-section .lead {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .navbar .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .navbar-logo {
+        height: 38px !important;
+    }
+
+    .btn-outline-light {
+        padding: 8px 18px;
+        font-size: 0.9rem;
+        border-radius: 10px;
+    }
+
+    .hero-section {
+        padding: 115px 16px 70px;
+    }
+
+    .hero-logo {
+        max-width: 95px;
+        margin-bottom: 1rem !important;
+    }
+
+    .hero-title,
+    .hero-section h1 {
+        font-size: 2rem;
+        line-height: 1.15;
+        word-break: keep-all;
+    }
+
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+
+    .services-section,
+    .why-choose-us-section {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    .services-section h2,
+    .why-choose-us-section h2 {
+        font-size: 1.7rem;
+        margin-bottom: 2rem !important;
+    }
+
+    .services-section .card {
+        max-width: 340px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .icon-circle {
+        width: 62px;
+        height: 62px;
+    }
+
+    .feature-icon {
+        font-size: 2.4rem;
+    }
+
+    .footer-section {
+        padding-left: 15px;
+        padding-right: 15px;
     }
 }

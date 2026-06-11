@@ -84,9 +84,8 @@ include 'includes/header.php';
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Order #<?= htmlspecialchars($order['id']) ?></h1>
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-3 px-md-4 py-4">   
+<div class="d-flex justify-content-between flex-wrap align-items-center gap-2 pt-3 pb-2 mb-3 border-bottom">                <h1 class="h2">Order #<?= htmlspecialchars($order['id']) ?></h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <a href="orders.php" class="btn btn-sm btn-outline-secondary">Back to Orders</a>
                 </div>
@@ -99,8 +98,8 @@ include 'includes/header.php';
             <!-- Main Details Row -->
             <div class="row g-4 mb-4">
                 <!-- Order Details Card -->
-                <div class="col-md-6">
-                    <div class="card shadow-sm h-100">
+<div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
                         <div class="card-body p-4">
                             <h5 class="card-title mb-3">Order Details</h5>
                             <dl class="row mb-0">
@@ -135,8 +134,8 @@ include 'includes/header.php';
                 </div>
 
                 <!-- Delivery Address Card -->
-                <div class="col-md-6">
-                    <div class="card shadow-sm h-100">
+<div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
                         <div class="card-body p-4">
                             <h5 class="card-title mb-3">Delivery Address</h5>
                             <dl class="row mb-0">
@@ -160,8 +159,8 @@ include 'includes/header.php';
             <!-- Secondary Details Row -->
             <div class="row g-4 mb-4">
                 <!-- Client Info Card -->
-                <div class="col-md-6">
-                    <div class="card shadow-sm h-100">
+<div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
                         <div class="card-body p-4">
                             <h5 class="card-title mb-3">Client Info</h5>
                             <dl class="row mb-0">
@@ -179,8 +178,8 @@ include 'includes/header.php';
                 </div>
 
                 <!-- Status Tracking Card -->
-                <div class="col-md-6">
-                    <div class="card shadow-sm h-100">
+<div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
                         <div class="card-body p-4">
                             <h5 class="card-title mb-3">Order Status Tracking</h5>
                             <div class="list-group">
@@ -201,8 +200,8 @@ include 'includes/header.php';
             <!-- Tertiary Details Row for Delivery and Proof -->
             <div class="row g-4">
                 <?php if (!empty($order['assigned_driver'])): ?>
-                <div class="col-md-6">
-                    <div class="card shadow-sm h-100">
+<div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
                         <div class="card-body p-4">
                             <h5 class="card-title mb-3">Assigned Delivery Team</h5>
                             <dl class="row mb-0">
@@ -227,8 +226,8 @@ include 'includes/header.php';
                 <?php endif; ?>
 
                 <?php if ($order['status'] === 'Delivered' && !empty($order['delivery_proof'])): ?>
-                <div class="col-md-6">
-                    <div class="card shadow-sm h-100">
+<div class="col-12 col-lg-6">
+                        <div class="card shadow-sm h-100">
                         <div class="card-body p-4 text-center">
                             <h5 class="card-title mb-3">Delivery Proof</h5>
                             <p>Proof of delivery has been submitted.</p>

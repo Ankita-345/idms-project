@@ -42,15 +42,23 @@ include 'includes/header.php';
         font-size: 12px !important;
         margin-right: 2px !important;
     }
+    @media (max-width: 768px) {
+    .client-action-buttons {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    .client-action-buttons .btn {
+        width: 100%;
+    }
+}
 </style>
 <div class="container-fluid">
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="page-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-3 px-md-4 py-4">            <div class="page-header">
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2">                    <div>
                         <h1 class="page-title">Clients</h1>
                         <p class="page-subtitle">Manage Ice Distribution clients.</p>
                     </div>

@@ -2,8 +2,8 @@
 $role = $_SESSION['role'] ?? 'Client';
 $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
-<nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse show" id="dashboardSidebar">
-    <div class="sidebar-inner">
+<nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse" id="dashboardSidebar">
+        <div class="sidebar-inner">
         <div class="sidebar-menu flex-grow-1 px-3 pt-4 pb-4">
             <ul class="nav flex-column mb-0">
                 <li class="nav-item mb-1">

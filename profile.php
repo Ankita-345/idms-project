@@ -114,13 +114,24 @@ if (mysqli_query($conn, $insert_sql)) {
 $pageTitle = 'Profile - IDMS';
 include 'includes/header.php';
 ?>
+<style>
+@media (max-width: 768px) {
+    .text-end {
+        text-align: left !important;
+    }
+
+    .table-responsive .btn {
+        width: 100%;
+    }
+}
+</style>
 <div class="container-fluid">
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="page-header">
-                <div>
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-3 px-md-4 py-4">   
+<div class="page-header mb-3">
+                    <div>
                     <h1 class="page-title">Profile</h1>
                     <p class="page-subtitle">Your account details and contact information.</p>
                 </div>

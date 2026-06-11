@@ -58,13 +58,25 @@ $vehicle_types = ['Truck', 'Van', 'Mini'];
 $pageTitle = 'Delivery Teams - IDMS';
 include 'includes/header.php';
 ?>
+<style>
+@media (max-width: 768px) {
+    td:last-child {
+        min-width: 180px;
+    }
+
+    td:last-child .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 4px;
+    }
+}
+</style>
 <div class="container-fluid">
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-                <h1 class="h2">Delivery Teams</h1>
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-3 px-md-4 py-4">     
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 border-bottom pb-3">                <h1 class="h2">Delivery Teams</h1>
                 <a href="add-delivery-team.php" class="btn btn-success">+ Add Team</a>
             </div>
 

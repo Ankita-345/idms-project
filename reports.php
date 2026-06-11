@@ -90,9 +90,8 @@ if (in_array($role, ['Admin'])) {
 <div class="container-fluid">
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                <div>
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-3 px-md-4 py-4">          
+<div class="d-flex justify-content-between flex-wrap align-items-center gap-2 pb-2 mb-3 border-bottom">                <div>
                     <h1 class="h2">Reports & Analytics</h1>
                     <p class="text-muted mb-0">System insights for <?= htmlspecialchars($role) ?> users.</p>
                 </div>
@@ -100,32 +99,32 @@ if (in_array($role, ['Admin'])) {
 
             <?php if (in_array($role, ['Admin'])): ?>
                 <div class="row g-3 mb-4">
-                    <div class="col-6 col-xl-3">
-                        <div class="card border-primary shadow-sm h-100">
+<div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card border-primary shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Total Orders</h6>
                                 <p class="display-6 mb-0"><?= $totals['total_orders'] ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 col-xl-3">
-                        <div class="card border-warning shadow-sm h-100">
+<div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card border-warning shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Pending Orders</h6>
                                 <p class="display-6 mb-0"><?= $totals['pending_orders'] ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 col-xl-3">
-                        <div class="card border-success shadow-sm h-100">
+<div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card border-success shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Delivered Orders</h6>
                                 <p class="display-6 mb-0"><?= $totals['delivered_orders'] ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 col-xl-3">
-                        <div class="card border-info shadow-sm h-100">
+<div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card border-info shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Clients</h6>
                                 <p class="display-6 mb-0"><?= $totals['total_clients'] ?></p>
@@ -193,24 +192,24 @@ if (in_array($role, ['Admin'])) {
                 </div>
             <?php elseif ($role === 'Client'): ?>
                 <div class="row g-3 mb-4">
-                    <div class="col-4">
-                        <div class="card shadow-sm h-100">
+<div class="col-12 col-md-4">
+                            <div class="card shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">My Orders</h6>
                                 <p class="display-6 mb-0"><?= $own_orders_summary['total_orders'] ?? 0 ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="card shadow-sm h-100">
+<div class="col-12 col-md-4">
+                            <div class="card shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Pending</h6>
                                 <p class="display-6 mb-0"><?= $own_orders_summary['pending_orders'] ?? 0 ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="card shadow-sm h-100">
+<div class="col-12 col-md-4">
+                            <div class="card shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Delivered</h6>
                                 <p class="display-6 mb-0"><?= $own_orders_summary['delivered_orders'] ?? 0 ?></p>
@@ -232,32 +231,32 @@ if (in_array($role, ['Admin'])) {
                 </div>
             <?php elseif ($role === 'Delivery'): ?>
                 <div class="row g-3 mb-4">
-                    <div class="col-3">
-                        <div class="card shadow-sm h-100">
+<div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Assigned Orders</h6>
                                 <p class="display-6 mb-0"><?= $assigned_summary['total_assigned'] ?? 0 ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm h-100">
+<div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Pending</h6>
                                 <p class="display-6 mb-0"><?= $assigned_summary['pending'] ?? 0 ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm h-100">
+<div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Delivered</h6>
                                 <p class="display-6 mb-0"><?= $assigned_summary['delivered'] ?? 0 ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <div class="card shadow-sm h-100">
+<div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card shadow-sm h-100">
                             <div class="card-body">
                                 <h6 class="card-title">Delayed</h6>
                                 <p class="display-6 mb-0"><?= $assigned_summary['delayed'] ?? 0 ?></p>
