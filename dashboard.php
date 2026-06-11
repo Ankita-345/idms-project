@@ -13,9 +13,8 @@ include 'includes/header.php';
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                <div>
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-3 px-md-4 py-4">   
+<div class="d-flex justify-content-between flex-wrap align-items-center gap-2 pb-2 mb-3 border-bottom">                <div>
                     <h1 class="h2">Dashboard</h1>
                     <p class="text-muted mb-0">Welcome back, <?= htmlspecialchars($_SESSION['full_name']) ?>.</p>
                 </div>

@@ -35,25 +35,24 @@ include 'includes/header.php';
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-                <h1 class="h2">Inventory</h1>
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-3 px-md-4 py-4">           
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 border-bottom pb-3">                <h1 class="h2">Inventory</h1>
                 <div>
                     <a href="add-stock.php" class="btn btn-success">+ Add Stock</a>
                 </div>
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card shadow-sm">
+<div class="col-12 col-md-6">
+                        <div class="card shadow-sm">
                         <div class="card-body">
                             <h6>Low Stock Items</h6>
                             <h3><?= $low_count ?></h3>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card shadow-sm">
+<div class="col-12 col-md-6">
+                        <div class="card shadow-sm">
                         <div class="card-body">
                             <h6>Most Used Ice Type</h6>
                             <h3><?= htmlspecialchars($most_used) ?></h3>

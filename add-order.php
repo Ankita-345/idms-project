@@ -331,15 +331,13 @@ include 'includes/header.php';
     <div class="row">
         <?php include 'includes/sidebar.php'; ?>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-            <div class="mb-4 border-bottom pb-3">
+<main class="col-12 col-md-9 ms-sm-auto col-lg-10 px-3 px-md-4 py-4">            <div class="mb-4 border-bottom pb-3">
                 <a href="orders.php" class="btn btn-sm btn-secondary mb-2">← Back</a>
                 <h1 class="h2">Create New Order</h1>
             </div>
 
             <div class="row">
-                <div class="col-12 col-lg-8">
-                    <div class="card shadow-sm">
+<div class="col-12 col-lg-8 mx-auto">                    <div class="card shadow-sm">
                         <div class="card-body">
                             <?php if ($error): ?>
                                 <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>

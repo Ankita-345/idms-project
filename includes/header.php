@@ -124,22 +124,70 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
 .modern-table td:nth-child(10) {
     width: 120px;
 }
+@media (max-width: 767.98px) {
+    .sidebar {
+        position: fixed !important;
+        top: 56px !important;
+        left: 0;
+        z-index: 1040;
+        height: calc(100vh - 56px) !important;
+        width: 240px !important;
+        min-width: 240px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        box-shadow: 8px 0 24px rgba(15, 23, 42, 0.25);
+    }
+
+    .sidebar.collapse:not(.show) {
+        display: none !important;
+    }
+
+    .sidebar.collapse.show {
+        display: block !important;
+    }
+
+    main {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    .container-fluid {
+        overflow-x: hidden;
+    }
+
+    .card {
+        border-radius: 14px;
+    }
+}
+
+@media (min-width: 768px) {
+    .sidebar.collapse {
+        display: block !important;
+    }
+}
 
     </style>
 </head>
 <body class="<?= htmlspecialchars($bodyClass ?? '') ?>">
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container-fluid">
-        <button class="btn btn-outline-light d-md-none me-2" type="button" data-bs-toggle="collapse" data-bs-target="#dashboardSidebar" aria-controls="dashboardSidebar" aria-expanded="false" aria-label="Toggle sidebar">
-            <i class="bi bi-list"></i>
-        </button>
+        <?php if (!empty($_SESSION['user_id'])): ?>
+    <button class="btn btn-outline-light d-md-none me-2" type="button" data-bs-toggle="collapse" data-bs-target="#dashboardSidebar" aria-controls="dashboardSidebar" aria-expanded="false" aria-label="Toggle sidebar">
+        <i class="bi bi-list"></i>
+    </button>
+
+<?php endif; ?>
         <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
             <span class="me-2"><i class="bi bi-snow"></i></span>
             <span>IDMS</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <?php if (empty($_SESSION['user_id'])): ?>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<?php endif; ?>
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 <?php if (!empty($_SESSION['user_id'])):

@@ -29,8 +29,7 @@ $pageTitle = 'KRYSTAL CUBE - Always Fresh, Always Pure.';
         <div class="container">
             <a class="navbar-brand" href="#">
                 <!-- Replace with your logo -->
-<img src="assets/images/krystal-cube-logo.jpeg" alt="KRYSTAL CUBE" style="height: 55px; width: auto;">            </a>
-            <div class="ms-auto">
+<img src="assets/images/krystal-cube-logo.jpeg" alt="KRYSTAL CUBE" class="navbar-logo">            <div class="ms-auto">
                 <a href="login.php" class="btn btn-outline-light">Login</a>
             </div>
         </div>
@@ -40,7 +39,8 @@ $pageTitle = 'KRYSTAL CUBE - Always Fresh, Always Pure.';
     <header class="hero-section text-white text-center">
         <div class="container">
             <div class="hero-content">
-<img src="assets/images/krystal-cube-logo.jpeg" alt="KRYSTAL CUBE" class="hero-logo mb-4">                <h1 class="display-3">KRYSTAL CUBE</h1>
+<img src="assets/images/krystal-cube-logo.jpeg" alt="KRYSTAL CUBE" class="hero-logo mb-4">     
+<h1 class="display-3 hero-title">KRYSTAL CUBE</h1>
                 <p class="lead">Always Fresh, Always Pure.</p>
             </div>
         </div>
@@ -50,9 +50,9 @@ $pageTitle = 'KRYSTAL CUBE - Always Fresh, Always Pure.';
     <section class="services-section py-5">
         <div class="container">
             <h2 class="text-center mb-5">Our Products</h2>
-            <div class="row text-center">
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card h-100 shadow-sm border-0">
+<div class="row text-center g-4">       
+<div class="col-12 col-sm-6 col-lg-3">
+                        <div class="card h-100 shadow-sm border-0">
                         <div class="card-body">
                             <div class="icon-circle mx-auto mb-3">
                                 <i class="bi bi-box"></i>
@@ -61,8 +61,8 @@ $pageTitle = 'KRYSTAL CUBE - Always Fresh, Always Pure.';
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card h-100 shadow-sm border-0">
+<div class="col-12 col-sm-6 col-lg-3">
+                        <div class="card h-100 shadow-sm border-0">
                         <div class="card-body">
                             <div class="icon-circle mx-auto mb-3">
                                 <i class="bi bi-app"></i>
@@ -71,8 +71,8 @@ $pageTitle = 'KRYSTAL CUBE - Always Fresh, Always Pure.';
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card h-100 shadow-sm border-0">
+<div class="col-12 col-sm-6 col-lg-3">
+                        <div class="card h-100 shadow-sm border-0">
                         <div class="card-body">
                             <div class="icon-circle mx-auto mb-3">
                                 <i class="bi bi-snow"></i>
@@ -81,7 +81,7 @@ $pageTitle = 'KRYSTAL CUBE - Always Fresh, Always Pure.';
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-4">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card h-100 shadow-sm border-0">
                         <div class="card-body">
                             <div class="icon-circle mx-auto mb-3">
@@ -100,29 +100,27 @@ $pageTitle = 'KRYSTAL CUBE - Always Fresh, Always Pure.';
         <div class="container">
             <h2 class="text-center mb-5">Why Choose Us</h2>
             <div class="row">
-                <div class="col-md-3 text-center mb-4">
-                    <div class="feature-icon mb-3">
+<div class="col-12 col-sm-6 col-lg-3 text-center">                    <div class="feature-icon mb-3">
                         <i class="bi bi-gem"></i>
                     </div>
                     <h4>Pure Quality</h4>
                     <p class="text-muted">Our ice is made from purified water, ensuring the highest quality and clarity.</p>
                 </div>
-                <div class="col-md-3 text-center mb-4">
-                    <div class="feature-icon mb-3">
+<div class="col-12 col-sm-6 col-lg-3 text-center">                    <div class="feature-icon mb-3">
                         <i class="bi bi-lightning-charge-fill"></i>
                     </div>
                     <h4>Fast Delivery</h4>
                     <p class="text-muted">We provide prompt and efficient delivery services to meet your needs.</p>
                 </div>
-                <div class="col-md-3 text-center mb-4">
-                    <div class="feature-icon mb-3">
+<div class="col-12 col-sm-6 col-lg-3 text-center">     
+                   <div class="feature-icon mb-3">
                         <i class="bi bi-shield-check"></i>
                     </div>
                     <h4>Reliable Service</h4>
                     <p class="text-muted">Count on us for consistent and dependable ice supply for your business.</p>
                 </div>
-                <div class="col-md-3 text-center mb-4">
-                    <div class="feature-icon mb-3">
+<div class="col-12 col-sm-6 col-lg-3 text-center">
+                        <div class="feature-icon mb-3">
                         <i class="bi bi-boxes"></i>
                     </div>
                     <h4>Bulk Orders</h4>
