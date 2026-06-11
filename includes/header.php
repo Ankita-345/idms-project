@@ -183,7 +183,7 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
             <span class="me-2"><i class="bi bi-snow"></i></span>
             <span>IDMS</span>
         </a>
-        <?php if (empty($_SESSION['user_id'])): ?>
+        <?php if (empty($_SESSION['user_id']) && (($bodyClass ?? '') !== 'page-auth')): ?>
 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
 </button>
@@ -224,13 +224,15 @@ $pageTitle = $pageTitle ?? 'Ice Distribution Management System';
                         </ul>
                     </li>
                 <?php else: ?>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="register.php">Register</a>
-                    </li>
-                <?php endif; ?>
+    <?php if (($bodyClass ?? '') !== 'page-auth'): ?>
+        <li class="nav-item">
+            <a class="nav-link text-white" href="login.php">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" href="register.php">Register</a>
+        </li>
+    <?php endif; ?>
+<?php endif; ?>
             </ul>
         </div>
     </div>
